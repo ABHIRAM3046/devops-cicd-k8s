@@ -27,3 +27,13 @@ jobs:
       - name: Push Docker Image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/devops-app:v2
 
+      - name: Set Kubeconfig
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.Kube/config
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl rollout restart deployment/devops-app
+
+
